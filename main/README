@@ -1,0 +1,81 @@
+
+
+
+READ THIS FOR INFO ON WHAT IS IN EACH OF THESE FOLDERS:
+
+-------------------------
+
+Cholec80 scripts.
+
+NOTE: you can run the Cholec80_Main.m from the narxTrainPredScript.m NARX program, meaning you'll bypass all the extra legwork and go straight into the NARX training and prediction.
+
+-------------------------
+
+Contains all the scripts needed to read in the cholec80 data and compute all the phase times and tool occurrence stats. 
+
+Only thing you'll need to do is adjust the file path for the myFolder and myFolder2 variables and you’re good to go.
+
+Press run on Cholec80_Main.m and you'll get two plots:
+
+- Figure 1: histogram of phase time statistics. The variables used to generate this plot are meanPhaseDur (for each phase in seconds) and stdPhaseDur. These have been converted into minutes and seconds, and stored in meanPhaseTime and stdPhaseTime - formatted as minute.seconds (e.g. phase 1 = 1.4715, which means 1 min and 47s long).
+
+- Figure 2: plot of the tool occurrence of each of the 7 tools in each of the 7 phases. The variables used to generate this plot are mean<tool name> for all 7 (e.g. meanBipolar, meanClipper).
+
+
+THE USEFUL VARIABLES
+
+The most important variables saved in the workspace are the following:
+
+- toolInputs: containing the 7x1 vector of each second of all 80 surgeries.
+- phaseTargets: containing the 1x1 vector of labelled phases for all timesteps of each surgery.
+- T_sur: total surgery time for each surgery.
+- T_ph: phase time of each phase, for each surgery
+
+These are the variables you’ll need for the NARX training/prediction, and the logistic regression stuff.
+
+OTHER VARIABLES OF INTEREST
+
+You might also want to know the timestamps of each phase (i.e. when each phase starts). To account for the signal acquisition (25 fps), these have all been computed and stored in the phaseTimeStamps variable. 
+
+
+-------------------------
+
+Remaining time prediction
+
+-------------------------
+
+
+The main script you’re looking for is compareModelStats.m, which produces all the plots and statistics for the logistic regression and other algorithm comparisons for the binary classification problem. 
+
+This script pulls data from the file data.txt (stored in Data folder) to compute the classification accuracy, sensitivity and specificity for each algorithm. You’ve got the choice to Run all, or just run each section individually (recommend the latter: the neural network takes quite a while!). 
+
+
+-------------------------
+
+Phase Recognition
+
+-------------------------
+
+
+Run narxTrainPredScript.m to firstly ask how many surgeries you want to use for training, put the data into a format that the NARX likes (Section 1), and use the targets and tool data to train the NARX (Section 2).
+
+Once trained, you can view the errors, autocorrelation, cross-correlation, and other plots you might need. It also allows you to see the timeline of a trained surgery to see how well the NARX fit the data. 
+
+Section 3 then contains the code for testing the trained NARX on new data (ie surgeries it hasnt seen before), and seeing how well it performed by comparing the ground truth (targets) against network outputs for each phase. The errors for each phase are also plotted.
+
+Section 4 then applies a heaviside function to level off the outputs so its easier to interpret. 
+
+Finally section 5 computes the network accuracy and stores the results in percentClass.
+
+-------------------------
+
+If you need me to give a better description of anything at all, please let me know.
+
+Thank you once again for giving me the opportunity to work for you, and with your team. Getting to know you all was a real privilege and you have taught me much. I won’t forget you.
+
+I wish you the very best with your future research (and everything else!), and I hope that my work will be of some assistance to you.
+
+Vielen dank,
+Calum
+
+-------------------------
